@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TooManyPotions", "TooManyPo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasierUI", "EasierUI\EasierUI\EasierUI.csproj", "{A0208842-3DA2-4CF4-A5AB-D09CCC9F1578}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReLocalization", "ReLocalization\ReLocalization\ReLocalization.csproj", "{1FC666E8-01D4-480D-9148-CF2505F6D2BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

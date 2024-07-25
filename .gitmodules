@@ -1,3 +1,6 @@
 [submodule "EasierUI"]
 	path = EasierUI
 	url = https://github.com/yaggod/EasierUI
+[submodule "ReLocalization"]
+	path = ReLocalization
+	url = https://github.com/AirBurn0/ReLocalization
