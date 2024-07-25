@@ -1,0 +1,14 @@
+cheat_menu_title: Cheat Menu
+devmode_toggle_text: DevMode
+position_modifying_toggle_text: Position Modifying
+disable_damage_toggle_text: Disable Damage
+inventory_items_dupe_toggle_text: Inventory Items Dupe
+haggle_autoplay_toggle_text: Haggle Autoplay
+effects_editor_button_text: Open Potion Effects Editor
+potion_editor_title: Potion Editor
+overflow_toggle_text: Enable Potion Effects tier Overflow
+warning_window_title: Warning! Warning!
+warning_window_text:
+ "Can't add more than 3 Effects of the same type.\n
+ Having potion with more than 3 same Effects will cause game to crash.\n
+ Please enable Effects tier overflow option if you sure what you're doing.\n"

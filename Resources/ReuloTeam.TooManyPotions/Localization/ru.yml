@@ -1,0 +1,14 @@
+cheat_menu_title: Чит меню
+devmode_toggle_text: Режим разработчика
+position_modifying_toggle_text: Телепортация на карте
+disable_damage_toggle_text: Отключить урон
+inventory_items_dupe_toggle_text: Дюп вещей в инвентаре
+haggle_autoplay_toggle_text: Автоматическая торговля
+effects_editor_button_text: Открыть редактор зелья
+potion_editor_title: Редактор зелья
+overflow_toggle_text: Разрешить переполнение уровня эффекта зелья
+warning_window_title: Внимание! Внимание!
+warning_window_text:
+ "Нельзя добавить больше 3 эффектов одного типа. (Не может быть! Того же типа?!)\n
+ Это крашнет вашу игру к чертям, если положить это в инвентарь/продать (Я серьезно).\n
+ Включи триггер переполнения уровня эффекта, если знаешь что делаешь.\n"
