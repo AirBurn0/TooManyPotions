@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>8E8BE687-07F6-46C9-9298-1611415E4ADC</ProjectGuid>
+    <ProjectGuid>{8E8BE687-07F6-46C9-9298-1611415E4ADC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TooManyPotions</RootNamespace>
@@ -37,7 +37,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ReLocalization" HintPath="..\References\ReLocalization.dll" Private="false" />
     <Reference Include="0Harmony" HintPath="..\References\0Harmony.dll" Private="false" />
     <Reference Include="BepInEx" HintPath="..\References\BepInEx.dll" Private="false" />
     <Reference Include="PotionCraft.Core" HintPath="..\References\PotionCraft.Core.dll" Private="false" />
@@ -90,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EasierUI\EasierUI\EasierUI.csproj" />
+    <ProjectReference Include="..\ReLocalization\ReLocalization\ReLocalization.csproj" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
