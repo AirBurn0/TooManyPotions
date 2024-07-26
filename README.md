@@ -1,5 +1,7 @@
 # TooManyPotions
 [![Code license (CC BY-NC 4.0)](https://img.shields.io/badge/License-CC%20BY--NC%204.0-blue.svg?style=flat-square)](https://creativecommons.org/licenses/by-nc/4.0)
+[![NexusMods](https://img.shields.io/badge/Nexus%20Mods-TooManyPotions-orange?style=flat-square&logo=nexusmods)](https://www.nexusmods.com/potioncraftalchemistsimulator/mods/37)
+[![Thunderstore](https://img.shields.io/thunderstore/dt/ReuloTeam/TooManyPotions?style=flat-square&logo=thunderstore&label=Thunderstore&color=blue)](https://thunderstore.io/c/potion-craft/p/ReuloTeam/TooManyPotions/)
 
 Public repository for TooManyPotions (Potion Craft Mod / BepInEx 5 plugin) - a small GUI tool for manual testing of modded PotionCraft. Can be used as a cheat, however.
 
