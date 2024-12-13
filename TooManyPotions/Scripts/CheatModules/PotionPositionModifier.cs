@@ -6,7 +6,7 @@ namespace TooManyPotions.Scripts.CheatModules
 	public class PotionPositionModifier : MonoBehaviour
 	{
 		public static bool CanModify => GlobalConfigs.IsPositionModifyingAllowed && IsCursorOverMap();
-		private static Vector2 CursorPosition => Managers.RecipeMap.recipeMapObject.transmitterWindow.ViewToCamera(Managers.Cursor.cursor.transform.position);
+		private static Vector2 CursorPosition => Managers.Cursor.cursor.transform.position;
 
 		public void Update()
 		{
@@ -23,12 +23,12 @@ namespace TooManyPotions.Scripts.CheatModules
 			if (Managers.Cursor == null)    // game init / exit
 				return false;
 			return Managers.Cursor.grabbedInteractiveItem == null
-				&& Managers.RecipeMap.recipeMapObject.visibilityZoneCollider.OverlapPoint(Managers.Cursor.cursor.transform.position);
+				&& Managers.RecipeMap.recipeMapObject.visibilityZoneCollider.OverlapPoint(CursorPosition);
 		}
 
 		public static void TranslatePotionToCursor()
 		{
-			Managers.RecipeMap.indicator.SetPositionOnMap(Managers.RecipeMap.currentMap.transform.InverseTransformPoint(CursorPosition));
+			Managers.RecipeMap.indicator.SetPositionOnMap(Managers.RecipeMap.currentMap.referencesContainer.transform.InverseTransformPoint(Managers.RecipeMap.recipeMapObject.transmitterWindow.ViewToCamera(CursorPosition)));
 		}
 
 		public static void RotatePotionToCursor()

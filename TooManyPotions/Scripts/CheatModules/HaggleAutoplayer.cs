@@ -1,4 +1,6 @@
 using HarmonyLib;
+using PotionCraft.ManagersSystem;
+using PotionCraft.ManagersSystem.Trade;
 using PotionCraft.ObjectBased.Haggle;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,9 @@ namespace TooManyPotions.Scripts.CheatModules
 	public class HaggleAutoplayer : MonoBehaviour
 	{
 
+		private static HaggleWindow window => HaggleWindow.Instance;
+		private static TradeManager.HaggleSubManager manager => Managers.Trade.haggle;
+
 		public void FixedUpdate()
 		{
 			if (GlobalConfigs.IsHaggleAutoplayAllowed)
@@ -17,20 +22,16 @@ namespace TooManyPotions.Scripts.CheatModules
 
 		private static void HaggleAutoplay()
 		{
-			HaggleWindow haggle = HaggleWindow.Instance;
-			if (haggle.isPaused || haggle.state == HaggleState.DifficultyNotSelected)
+			if (window == null || window.IsPaused || manager == null || manager.HaggleState == HaggleState.DifficultyNotSelected) 
 				return;
-			List<BonusInfo> bonuses = haggle.currentBonuses;
-			Pointer pointer = Traverse.Create(haggle).Field("pointer").GetValue() as Pointer;
-			if (pointer == null)
-				return;
-			BonusInfo bonus = bonuses.FirstOrDefault((BonusInfo info) => Mathf.Abs(info.haggleBonus.Position - pointer.Position) <= info.size / 2f);
+			List<BonusInfo> bonuses = manager.haggleCurrentBonuses;
+			BonusInfo bonus = bonuses.FirstOrDefault((BonusInfo info) => Mathf.Abs(info.haggleBonus.Position - manager.pointerPosition) <= info.size / 2f);
 			if (bonus == null)
 				return;
 			int num = bonuses.IndexOf(bonus);
 			if (num == 0 || num == bonuses.Count - 1)
 				return;
-			haggle.bargainButton.OnButtonClicked();
+			window.bargainButton.OnButtonClicked();
 		}
 
 	}

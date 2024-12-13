@@ -166,11 +166,12 @@ namespace TooManyPotions.Displays
 				);
 				Destroy(newButton.Text.gameObject);
 				newButton.Image.color = new Color(1f, 1f, 1f, 0.3f);
-				ImageContrainer icon = CreateIconOnLayout(newButton.GameObject.transform, item.name + " Icon", item.GetIcon());
+				var iconData = item.GetIconData();
+				ImageContrainer icon = CreateIconOnLayout(newButton.GameObject.transform, item.name + " Icon", iconData.Item1);
 				RectTransform transform = icon.GameObject.GetComponent<RectTransform>();
-				transform.anchoredPosition = new Vector2(0f, 0f);
-				transform.anchorMax = new Vector2(1.3f, 1.05f);
-				transform.anchorMin = new Vector2(0.1f, -0.05f);
+				transform.anchoredPosition = iconData.Item2;
+				transform.anchorMax = new Vector2(0.9f, 0.9f);
+				transform.anchorMin = new Vector2(0.1f, 0.1f);
 				transform.sizeDelta = Vector2.zero;
 			}
 		}

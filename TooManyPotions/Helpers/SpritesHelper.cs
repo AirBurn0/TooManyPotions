@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using PotionCraft.ScriptableObjects.BuildableInventoryItem;
 using UnityEngine;
 
 namespace TooManyPotions.Helpers
@@ -16,8 +17,7 @@ namespace TooManyPotions.Helpers
 			var allResources = Resources.LoadAll<Sprite>("Sprite Assets");
 			SpritesDictionary = allResources.GroupBy(resource => resource.name).ToDictionary(pair => pair.Key, pair => pair.ToList());
 			RequestSprites(
-				Enumerable
-				.Range(1, 19).Select(i => $"Inventory Item Slot {i} Normal")
+				Enumerable.Range(1, 19).Select(i => $"Inventory Item Slot {i} Normal")
 				.Append("InventoryScroller Pointer")
 				.Append("InventoryScroller Axis Var1 Active")
 				.Append("GoalsTrackPanel Background")
@@ -48,7 +48,7 @@ namespace TooManyPotions.Helpers
 			if (RequestedSpritesDictionary.TryGetValue(name, out sprite))
 				return sprite;
 
-			sprite = System.Array.Find<Sprite>(Resources.FindObjectsOfTypeAll<Sprite>(), s => s.name?.Equals(name) ?? false);
+			sprite = System.Array.Find(Resources.FindObjectsOfTypeAll<Sprite>(), s => s.name?.Equals(name) ?? false);
 			RequestedSpritesDictionary.Add(name, sprite);
 
 			return sprite;

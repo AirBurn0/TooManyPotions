@@ -26,7 +26,7 @@ namespace TooManyPotions.Helpers
 			if (fontsDictionary.TryGetValue(name, out font))
 				return font;
 
-			font = System.Array.Find<TMP_FontAsset>(Resources.FindObjectsOfTypeAll<TMP_FontAsset>(), s => s.name?.Equals(name) ?? false);
+			font = System.Array.Find(Resources.FindObjectsOfTypeAll<TMP_FontAsset>(), s => s.name?.Equals(name) ?? false);
 			fontsDictionary.Add(name, font);
 
 			return font;

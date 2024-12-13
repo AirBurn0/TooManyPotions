@@ -113,7 +113,7 @@ namespace TooManyPotions
 		public static bool IsRotating => !IsUnfocused && IsInState(rotatePotion, State.Downed);
 		public static bool IsTeleporting => !IsUnfocused && IsInState(teleportPotion, State.Downed);
 		public static bool IsDuplicating => !IsUnfocused && IsInState(duplicateInInventory, State.JustDowned);
-		public static bool IsDuplicatingMultiple => !IsUnfocused && IsInState(duplicateInInventoryMultiple, State.JustDowned);
+		public static bool IsDuplicatingMultiple => !IsUnfocused && IsInState(duplicateInInventoryMultiple, State.Downed);
 	}
 
 }

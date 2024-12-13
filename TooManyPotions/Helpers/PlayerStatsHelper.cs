@@ -1,10 +1,22 @@
-﻿using PotionCraft.ManagersSystem;
+﻿using HarmonyLib;
+using PotionCraft;
+using PotionCraft.ManagersSystem;
+using PotionCraft.ManagersSystem.Game.Providers;
+using PotionCraft.ObjectBased;
 using PotionCraft.ObjectBased.RecipeMap;
+using PotionCraft.SceneLoader;
 using PotionCraft.ScriptableObjects;
+using PotionCraft.ScriptableObjects.AlchemyMachineProducts;
+using PotionCraft.ScriptableObjects.BuildableInventoryItem;
 using PotionCraft.ScriptableObjects.Ingredient;
 using PotionCraft.ScriptableObjects.Salts;
+using PotionCraft.ScriptableObjects.WateringPot;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace TooManyPotions.Helpers
 {
@@ -41,8 +53,21 @@ namespace TooManyPotions.Helpers
 		{
 			// items
 			List<InventoryItem> items = new List<InventoryItem>();
-			items.AddRange(Ingredient.allIngredients);
+			items.AddRange(Ingredient.allIngredients.OrderBy(x => x.GetItemType()));
+			items.AddRange(AlchemyMachineProduct.allProducts.Where(x => !x.name.Contains("Useless") && !x.name.Contains("Salt Pile"))); // exclude useless poop and salts
 			items.AddRange(Salt.allSalts);
+
+			var buildable = Traverse.Create(typeof(BuildableInventoryItem)).Field("allBuildableItems").GetValue() as Dictionary<BuildableInventoryItemType, List<BuildableInventoryItem>>;
+			// ensures order - seeds first, pots and decor in middle, furniture last
+			// can be also achieved via BuildableInventoryItem.ForEach call but it's gross
+			items.AddRange(buildable[BuildableInventoryItemType.Seed]);
+
+			items.AddRange(Traverse.Create(typeof(WateringPot)).Property("AllPots").GetValue() as List<WateringPot>);
+			items.AddRange(DecorDynamic.allDecorItems);
+
+			items.AddRange(buildable[BuildableInventoryItemType.Furniture]);
+
+			// last ones?
 			Items = items.AsReadOnly();
 
 			// potion effects
@@ -60,7 +85,7 @@ namespace TooManyPotions.Helpers
 		{
 			try
 			{
-				Managers.Player.inventory.AddItem(item, amount);
+				Managers.Player.Inventory.AddItem(item, amount);
 			}
 			catch (System.Exception e)
 			{
@@ -83,9 +108,21 @@ namespace TooManyPotions.Helpers
 
 		public static void SetMapBase(MapState based)
 		{
-			Managers.RecipeMap.potionBaseSubManager.UnlockPotionBase(based.potionBase, false, false);
-			ModInfo.Log(based.potionBase.name);
+			if (Managers.RecipeMap.potionBaseSubManager.IsBaseUnlocked(based.potionBase))
+			{
+				SelectMap(based);
+				return;
+			}
+			Managers.RecipeMap.potionBaseSubManager.UnlockPotionBase(based.potionBase, false, false, false);
+			Managers.Game.LoadScenes(new List<SceneIndexEnum> { based.potionBase.GetSceneIndexEnum() }, null, () => SelectMap(based));
+		}
+
+		private static void SelectMap(MapState based)
+		{
+			float zoomNow = Managers.RecipeMap.recipeMapObject.GetZoomObject().ZoomNow;
 			MapStatesManager.SelectMap(based.index, true);
+			Managers.RecipeMap.currentMap.ResetCamState(zoomNow);
+			Managers.RecipeMap.potionBaseSubManager.ReadPotionBase(based.potionBase);
 		}
 
 	}

@@ -18,7 +18,7 @@ namespace TooManyPotions
 		private static new ManualLogSource Logger;
 		private const string GUID = "ReuloTeam.TooManyPotions";
 		private const string MODNAME = "TooManyPotions";
-		private const string VERSION = "1.0.0";
+		private const string VERSION = "2.0.0";
 
 		public void Awake()
 		{
