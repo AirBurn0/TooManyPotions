@@ -24,11 +24,7 @@ namespace TooManyPotions.Displays
 		private InputFieldContrainer _popularityInput;
 		private SliderContrainer _karmaSlider;
 		private ScrollContainer _itemsScroll;
-		private ToggleContrainer _devmodeToggle;
-		private ToggleContrainer _teleportToggle;
-		private ToggleContrainer _nodamageToggle;
-		private ToggleContrainer _dupingToggle;
-		private ToggleContrainer _autohaggleToggle;
+		private ToggleContrainer _devmodeToggle, _teleportToggle, _nodamageToggle, _dupingToggle, _autohaggleToggle;
 		private ButtonContrainer _button;
 		#endregion
 
@@ -43,11 +39,13 @@ namespace TooManyPotions.Displays
 			SetupPopularityInput();
 			SetupKarmaSlider();
 			SetupItemsScroll();
+			
 			SetupDevmodeToggle();
 			SetupTeleportationToggle();
 			SetupNodamageToggle();
 			SetupDupingToggle();
 			SetupAutoHaggleToggle();
+			
 			SetupPotionEditWindowButton();
 		}
 
@@ -180,9 +178,7 @@ namespace TooManyPotions.Displays
 		{
 			ToggleContrainer toggle = ControlsFactory.Instance.CreateToggle(parent, name, handler, label);
 			toggle.GameObject.AddComponent<LayoutElement>().preferredWidth = preferedWidth;
-			toggle.Text.sortingLayerID = SortingLayer.NameToID("Debug");
 			toggle.Text.gameObject.AddComponent<LocalizedText>();
-			_unsortedTextElements.Add(toggle.Text);
 			return toggle;
 		}
 

@@ -21,7 +21,6 @@ namespace TooManyPotions.Displays
 		protected int headPadding = 26;
 		protected int sortingOrderIncrement = 80;
 		private SpriteRenderer _sortingOrderController;
-		protected List<TextMeshPro> _unsortedTextElements = new List<TextMeshPro>();
 		protected Canvas _canvas;
 		protected PanelContainer _panel;
 		private BoxCollider2D _backgroundCollider;
@@ -62,8 +61,6 @@ namespace TooManyPotions.Displays
 			if (_canvas.sortingOrder == order)
 				return;
 			_canvas.sortingOrder = order;
-			foreach (var text in _unsortedTextElements)
-				text.sortingOrder = _canvas.sortingOrder + 1;
 
 		}
 

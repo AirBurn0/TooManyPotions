@@ -84,12 +84,16 @@ namespace TooManyPotions.Controls.Factories
 		protected override ToggleContrainer CreateToggle(ControlsResources.Resources resources = new ControlsResources.Resources())
 		{
 			ToggleContrainer toggle = base.CreateToggle(_resourcesToggle);
-			TextMeshPro text = toggle.Text;
-			text.fontSize = 144;
+			toggle.GameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 22);
+			
+			TMP_Text text = toggle.Text;
+			text.fontSize = 16;
 			text.color = new Color(0f, 0f, 0f, 1f);
 			text.enableWordWrapping = false;
-			toggle.GameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 22);
-
+			RectTransform transform = text.gameObject.GetComponent<RectTransform>();
+			transform.anchoredPosition = new Vector2(120, -25);
+			transform.anchorMax = transform.anchorMin = Vector2.up;
+			
 			return toggle;
 		}
 

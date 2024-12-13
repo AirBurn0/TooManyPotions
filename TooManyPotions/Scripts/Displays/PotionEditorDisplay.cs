@@ -41,9 +41,7 @@ namespace TooManyPotions.Displays
 		{
 			ToggleContrainer toggle = ControlsFactory.Instance.CreateToggle(parent, name, handler, label);
 			toggle.GameObject.AddComponent<LayoutElement>().preferredWidth = width;
-			toggle.Text.sortingLayerID = SortingLayer.NameToID(UISortingLayerName);
 			toggle.Text.gameObject.AddComponent<LocalizedText>();
-			_unsortedTextElements.Add(toggle.Text);
 			return toggle;
 		}
 

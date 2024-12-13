@@ -3,7 +3,7 @@ devmode_toggle_text: DevMode
 position_modifying_toggle_text: Position Modifying
 disable_damage_toggle_text: Disable Damage
 inventory_items_dupe_toggle_text: Inventory Items Dupe
-haggle_autoplay_toggle_text: Haggle Autoplay
+haggle_autoplay_toggle_text: Auto Haggle
 effects_editor_button_text: Open Potion Effects Editor
 potion_editor_title: Potion Editor
 overflow_toggle_text: Enable Potion Effects tier Overflow

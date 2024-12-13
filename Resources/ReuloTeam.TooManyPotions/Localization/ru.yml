@@ -1,9 +1,9 @@
 cheat_menu_title: Чит меню
 devmode_toggle_text: Режим разработчика
-position_modifying_toggle_text: Телепортация на карте
+position_modifying_toggle_text: Телепортация зелья
 disable_damage_toggle_text: Отключить урон
-inventory_items_dupe_toggle_text: Дюп вещей в инвентаре
-haggle_autoplay_toggle_text: Автоматическая торговля
+inventory_items_dupe_toggle_text: Дюп в инвентаре
+haggle_autoplay_toggle_text: Авто торговля
 effects_editor_button_text: Открыть редактор зелья
 potion_editor_title: Редактор зелья
 overflow_toggle_text: Разрешить переполнение уровня эффекта зелья
