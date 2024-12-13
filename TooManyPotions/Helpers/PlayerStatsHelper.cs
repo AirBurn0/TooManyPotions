@@ -10,6 +10,7 @@ using PotionCraft.ScriptableObjects.AlchemyMachineProducts;
 using PotionCraft.ScriptableObjects.BuildableInventoryItem;
 using PotionCraft.ScriptableObjects.Ingredient;
 using PotionCraft.ScriptableObjects.Salts;
+using PotionCraft.ScriptableObjects.TradableUpgrades;
 using PotionCraft.ScriptableObjects.WateringPot;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -66,7 +67,7 @@ namespace TooManyPotions.Helpers
 			items.AddRange(DecorDynamic.allDecorItems);
 
 			items.AddRange(buildable[BuildableInventoryItemType.Furniture]);
-
+			items.AddRange(TradableUpgrade.allTradableUpgrades);
 			// last ones?
 			Items = items.AsReadOnly();
 
