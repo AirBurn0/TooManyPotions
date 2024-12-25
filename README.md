@@ -7,6 +7,11 @@ Public repository for TooManyPotions (Potion Craft Mod / BepInEx 5 plugin) - a s
 
 ![Too Many Potions](https://github.com/user-attachments/assets/85c2a557-8960-4bba-9e49-2365c40cae6f)
 
+# Dependencies
+[ReLocalization](https://github.com/AirBurn0/ReLocalization) - makes it easier to work with localization.
+
+[BepInEx](https://github.com/BepInEx/BepInEx) - modloader;
+
 ## What is it for?
 Includes the following features:
 
