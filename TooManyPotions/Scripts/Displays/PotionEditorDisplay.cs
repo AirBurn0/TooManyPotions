@@ -125,7 +125,7 @@ namespace TooManyPotions.Displays
 						NewState(newButton.Button);
 				});
 				newButton.Image.color = new Color(1f, 1f, 1f, 0.3f);
-				ImageContrainer icon = CreateIconOnLayout(newButton.GameObject.transform, map.potionBase.name + " Icon", map.potionBase.markerIconIdleSprite);
+				ImageContrainer icon = CreateIconOnLayout(newButton.GameObject.transform, map.potionBase.name + " Icon", map.potionBase.markerIconSelectedSprite);
 				RectTransform transform = icon.GameObject.GetComponent<RectTransform>();
 				transform.anchoredPosition = new Vector2(0f, 0f);
 				transform.anchorMax = new Vector2(0.9f, 0.9f);
