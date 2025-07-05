@@ -42,22 +42,32 @@ namespace TooManyPotions.Helpers
 			{
 				if (value < 0)
 					return;
+				if (value > 1e20f) // 1e20 is theoretical xp limit of level with that kind of progression
+					value = 1e20f;
 				var xp = Managers.Player.experience;
-				if (value < xp.CurrentExp)
+				float step = Settings<PlayerManagerSettings>.Asset.levelStep; // not float but it's better to be float
+				int newLvl = Mathf.FloorToInt(0.5f * (Mathf.Sqrt(8f * value / step + 1f) + 1f)); // inverse Arithmetic progression Sum goes brrrr
+				int diffLvl = newLvl - xp.currentLvl;
+				bool skipTweens = diffLvl > 50 || diffLvl < 0; // getting more than 50 lvls at once can get extremely laggy due to tweens pool
+				if (skipTweens || value < xp.CurrentExp)
 				{
-					int step = Settings<PlayerManagerSettings>.Asset.levelStep;
 					xp.currentExp = value;
-					if (xp.currentLvlAt > value)
+					if (skipTweens)
 					{
-						// inverse Arithmetic progression Sum goes brrrr
-						xp.currentLvl = Mathf.FloorToInt(0.5f * (Mathf.Sqrt(8f * value / step + 1f) + 1f));
-						xp.currentLvlAt = (xp.currentLvl - 1) * step;
-						xp.nextLvlAt = xp.currentLvlAt + step;
+						xp.currentLvl = newLvl;
+						xp.currentLvlAt = (newLvl - 1) * newLvl / 2 * step;
+						xp.nextLvlAt = xp.currentLvlAt + newLvl * step;
+						if (diffLvl > 0) // give ppl their talent points
+						{
+							Managers.Player.talents.currentPoints += diffLvl - 1;
+							xp.OnLvlUp?.Invoke();
+							xp.CheckLvlGoal();
+						}
 					}
 					xp.OnCurrentExpChanged?.Invoke();
 					return;
 				}
-				xp.AddExperience(value - Experience, ExperienceCategory.Debug);
+				xp.AddExperience(value - xp.CurrentExp, ExperienceCategory.Debug);
 			}
 		}
 		public static int Karma

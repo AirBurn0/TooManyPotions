@@ -5,6 +5,7 @@ using PotionCraft.ManagersSystem.Debug;
 using PotionCraft.ScriptableObjects;
 using PotionCraft.ScriptableObjects.Salts;
 using System;
+using System.Globalization;
 using TMPro;
 using TooManyPotions.Controls.Factories;
 using TooManyPotions.Extensions;
@@ -74,9 +75,9 @@ namespace TooManyPotions.Displays
 			CreateIconOnLayout(parent, objectName, SpritesHelper.GetByName(objectName), size, size);
 		}
 
-		private InputFieldContrainer CreateInputField(Transform parent, Sprite sprite, Action<string> action, string objectName, string text)
+		private InputFieldContrainer CreateInputField(Transform parent, Sprite sprite, Action<string> action, string objectName, string text, TMP_InputField.ContentType type = TMP_InputField.ContentType.IntegerNumber)
 		{
-			InputFieldContrainer field = ControlsFactory.Instance.CreateInputField(parent, objectName, action, TMP_InputField.ContentType.IntegerNumber, text);
+			InputFieldContrainer field = ControlsFactory.Instance.CreateInputField(parent, objectName, action, type, text);
 			field.GameObject.AddComponent<LayoutElement>().flexibleWidth = 1;
 			field.BackgroundImage.sprite = sprite;
 			return field;
@@ -138,8 +139,9 @@ namespace TooManyPotions.Displays
 			GameObject experienceHolder = CreateLayout("Experience Holder");
 			CreateIconOnLayout(experienceHolder.transform, "XP Icon");
 
-			_experienceInput = CreateInputField(experienceHolder.transform, SpritesHelper.RequestSpriteByName("Karma Plate Idle"), value => { if (float.TryParse(value, out float result)) PlayerStatsHelper.Experience = result; }, "Experience Input", "0");
-			Managers.Player.experience.OnCurrentExpChanged.AddListener(() => _experienceInput.InputField.text = PlayerStatsHelper.Experience.ToString());
+			_experienceInput = CreateInputField(experienceHolder.transform, SpritesHelper.RequestSpriteByName("Karma Plate Idle"), value => { if (float.TryParse(value, out float result)) PlayerStatsHelper.Experience = result; }, "Experience Input", "0", TMP_InputField.ContentType.DecimalNumber);
+			_experienceInput.InputField.characterValidation = TMP_InputField.CharacterValidation.Decimal;
+			Managers.Player.experience.OnCurrentExpChanged.AddListener(() => _experienceInput.InputField.text = PlayerStatsHelper.Experience.ToString("#0.#"));
 		}
 
 		private void SetupKarmaSlider()
