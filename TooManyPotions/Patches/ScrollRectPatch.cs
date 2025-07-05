@@ -9,7 +9,7 @@ namespace TooManyPotions.Patches
 	[HarmonyPatch(typeof(ScrollRect))]
 	internal class ScrollRectPatch
 	{
-		private static Dictionary<GameObject, Vector2> slidersDictionary = new();
+		private static readonly Dictionary<GameObject, Vector2> slidersDictionary = [];
 
 		public static void SetSliderSize(GameObject scrollRectObject, Vector2 size)
 		{

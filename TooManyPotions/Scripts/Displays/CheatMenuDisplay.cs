@@ -87,10 +87,10 @@ namespace TooManyPotions.Displays
 		{
 			ScrollContainer scroll = ControlsFactory.Instance.CreateVerticalScroll(parent, objectName);
 
-			CreateCorner(scroll, "Left", new Vector2(0.03f, 1f), Vector2.zero);
-			CreateCorner(scroll, "Top", new Vector2(0.98f, 1.008f), new Vector2(0.02f, 0.984f));
-			CreateCorner(scroll, "Right", new Vector2(1f, 0.998f), new Vector2(0.97f, -0.002f));
-			CreateCorner(scroll, "Bottom", new Vector2(0.98f, 0.01f), new Vector2(0.02f, -0.006f));
+			CreateCorner(scroll, "Left", new(0.03f, 0.985f), new(0f, 0.035f));
+			CreateCorner(scroll, "Top", new(0.99f, 1.01f), new(0f, 0.98f));
+			CreateCorner(scroll, "Right", new(1f, 1f), new(0.97f, 0.035f));
+			CreateCorner(scroll, "Bottom", new(1f, 0.04f), new(0f, -0.01f));
 
 			return scroll;
 		}
@@ -175,8 +175,8 @@ namespace TooManyPotions.Displays
 				ImageContrainer icon = CreateIconOnLayout(newButton.GameObject.transform, item.name + " Icon", iconData.Item1);
 				RectTransform transform = icon.GameObject.GetComponent<RectTransform>();
 				transform.anchoredPosition = iconData.Item2;
-				transform.anchorMax = new Vector2(0.9f, 0.9f);
-				transform.anchorMin = new Vector2(0.1f, 0.1f);
+				transform.anchorMax = new(0.9f, 0.9f);
+				transform.anchorMin = new(0.1f, 0.1f);
 				transform.sizeDelta = Vector2.zero;
 			}
 		}

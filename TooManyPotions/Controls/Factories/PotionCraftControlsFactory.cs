@@ -1,11 +1,9 @@
 ﻿using EasierUI;
 using EasierUI.Controls.Contrainers;
-using PotionCraft.ManagersSystem;
 using TMPro;
 using TooManyPotions.Patches;
 using TooManyPotions.Scripts.Controls;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace TooManyPotions.Controls.Factories
@@ -67,29 +65,27 @@ namespace TooManyPotions.Controls.Factories
 
 			RectTransform background = (RectTransform)slider.BackgroundImage.gameObject.transform;
 			// 2lazy 2rotate mesh uv
-			background.localEulerAngles = new Vector3(0f, 0f, 90f);
-			background.anchorMin = new Vector2(0.46f, -2f);
-			background.anchorMax = new Vector2(0.54f, 3f);
+			background.localEulerAngles = new(0f, 0f, 90f);
+			background.anchorMin = new (0.46f, -2f);
+			background.anchorMax = new(0.54f, 3f);
 
 			RectTransform sliderArea = (RectTransform)GO.transform.Find("Handle Slide Area");
-			sliderArea.sizeDelta = new Vector2(sliderArea.sizeDelta.x, -10);
-			PointerEventData data = new(EventSystem.current);
-			data.position = Managers.Cursor.cursor.transform.position;
+			sliderArea.sizeDelta = new(sliderArea.sizeDelta.x, -10);
 
-			return slider;
+            return slider;
 		}
 
 		protected override ToggleContrainer CreateToggle(ControlsResources.Resources resources = new ControlsResources.Resources())
 		{
 			ToggleContrainer toggle = base.CreateToggle(_resourcesToggle);
-			toggle.GameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 22);
+			toggle.GameObject.GetComponent<RectTransform>().sizeDelta = new(0, 22);
 			
 			TMP_Text text = toggle.Text;
 			text.fontSize = 16;
-			text.color = new Color(0f, 0f, 0f, 1f);
+			text.color = new(0f, 0f, 0f, 1f);
 			text.enableWordWrapping = false;
 			RectTransform transform = text.gameObject.GetComponent<RectTransform>();
-			transform.anchoredPosition = new Vector2(120, -25);
+			transform.anchoredPosition = new(120, -25);
 			transform.anchorMax = transform.anchorMin = Vector2.up;
 			
 			return toggle;
@@ -98,33 +94,36 @@ namespace TooManyPotions.Controls.Factories
 		protected override ScrollContainer CreateVerticalScroll(ControlsResources.Resources resources = new ControlsResources.Resources())
 		{
 			ScrollContainer scroll = base.CreateVerticalScroll(_resourcesScrollView);
-			scroll.Background.color = new Color(1f, 1f, 1f, 1f);
+			scroll.Background.color = new(1f, 1f, 1f, 1f);
 			scroll.Scroll.movementType = ScrollRect.MovementType.Clamped;
 			GameObject GO = scroll.GameObject;
 			RectTransform viewTransform = (RectTransform)GO.transform;
-			viewTransform.pivot = new Vector2(1f, 0f);
+			viewTransform.pivot = new(1f, 0f);
+
+			RectTransform content = scroll.ContentHolder.GetComponent<RectTransform>();
+			content.anchorMax = new(0.98f, 1f);
+			content.anchorMin = new(0.02f, 0f);
 
 			RectTransform scrollTransform = scroll.VerticalScroll.GetComponent<RectTransform>();
-			scrollTransform.sizeDelta = new Vector2(16f, 0f);
-			scrollTransform.pivot = new Vector2(1f, 0f);
-			scrollTransform.anchorMax = Vector2.one;
-			scrollTransform.anchorMin = new Vector2(1f, 0f);
+			scrollTransform.sizeDelta = new(12f, 0f);
+			scrollTransform.pivot = new(1f, 0f);
+			scrollTransform.anchorMax = new(0.975f, 1f);;
+			scrollTransform.anchorMin = new(0.975f, 0f);
 			scrollTransform.anchoredPosition = Vector2.zero;
 			// scrollbar slider/knob/handle size hack
 			ScrollRectPatch.SetSliderSize(GO, Vector2.zero);
-			((RectTransform)scrollTransform.Find("Sliding Area")).sizeDelta = new Vector2(-10f, -15f);
+			RectTransform slidingArea = (RectTransform)scrollTransform.Find("Sliding Area");
+			slidingArea.sizeDelta = new(-10f, -10f);
+			RectTransform handle = (RectTransform)slidingArea.Find("Handle");
+			handle.sizeDelta = new(15f, 15f);
 
 			// grid + cell auto-resizing
 			ScrollRectCellResize resizer = GO.AddComponent<ScrollRectCellResize>();
-			resizer.scrollRectTransform = viewTransform;
-			resizer.scrollbarVTransform = scrollTransform;
+			resizer.panel = viewTransform;
+			resizer.scroll = scrollTransform;
 			resizer.group = scroll.ContentHolder.AddComponent<GridLayoutGroup>();
 			ContentSizeFitter fitter = scroll.ContentHolder.AddComponent<ContentSizeFitter>();
 			fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-
-			PointerEventData data = new(EventSystem.current);
-			data.position = Managers.Cursor.cursor.transform.position;
-			data.button = 0;
 
 			return scroll;
 		}

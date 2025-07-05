@@ -45,7 +45,7 @@ namespace TooManyPotions.Displays
 			_backgroundCollider.size = arenaVector;
 			_backgroundCollider.offset = arenaVector / 2f * (Vector2.right + Vector2.down);
 			Vector3 localPosition = Window.headTransform.localPosition;
-			Window.headTransform.localPosition = new Vector3(arenaVector.x - 0.06f, localPosition.y, localPosition.z);
+			Window.headTransform.localPosition = new(arenaVector.x - 0.06f, localPosition.y, localPosition.z);
 			DisplayUpdate();
 		}
 
@@ -55,7 +55,7 @@ namespace TooManyPotions.Displays
 			SetupPanel();
 			SetupElements();
 			TryReorder();
-			gameObject.GetComponent<RectTransform>().localScale = new Vector3(scaleFactor, scaleFactor, 1f);
+			gameObject.GetComponent<RectTransform>().localScale = new(scaleFactor, scaleFactor, 1f);
 		}
 
 		protected void TryReorder()
@@ -78,8 +78,8 @@ namespace TooManyPotions.Displays
 			gameObject.AddComponent<GraphicRaycaster>();
 			// ignore canvas size
 			RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
-			rectTransform.sizeDelta = new Vector2(0f, 0f);
-			rectTransform.localPosition = new Vector3(0f, 0f, 0f);
+			rectTransform.sizeDelta = new(0f, 0f);
+			rectTransform.localPosition = new(0f, 0f, 0f);
 		}
 
 		private void SetupPanel()
@@ -87,8 +87,8 @@ namespace TooManyPotions.Displays
 			_panel = ControlsFactory.Instance.CreatePanel(transform);
 
 			RectTransform rectTransform = _panel.RectTransform;
-			rectTransform.pivot = new Vector2(0f, 1f);
-			rectTransform.localPosition = new Vector3(defaultPadding, -defaultPadding - headPadding, 0f);
+			rectTransform.pivot = new(0f, 1f);
+			rectTransform.localPosition = new(defaultPadding, -defaultPadding - headPadding, 0f);
 			VerticalLayoutGroup layoutGroup = _panel.GameObject.AddComponent<VerticalLayoutGroup>();
 			layoutGroup.padding = new RectOffset(defaultPadding, defaultPadding, defaultPadding, defaultPadding);
 			layoutGroup.childControlHeight = false;
@@ -148,7 +148,7 @@ namespace TooManyPotions.Displays
 			windowObject.name = objectName + " GUI";
 			windowObject.SetActive(true);
 			windowObject.transform.SetParent(Managers.Game.Cam.transform);
-			windowObject.transform.localPosition = new Vector3(-10f, 6f, 0f);
+			windowObject.transform.localPosition = new(-10f, 6f, 0f);
 
 			GameObject menuObject = new(objectName + " Menu Display");
 			Transform Root = windowObject?.transform.Find("Maximized/Background");

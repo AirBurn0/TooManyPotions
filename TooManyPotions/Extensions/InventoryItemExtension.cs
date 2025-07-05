@@ -16,13 +16,13 @@ namespace TooManyPotions.Extensions
 			switch (item)
 			{
 				case Ingredient ingredient:
-					return (ingredient.smallIcon, new Vector2(5f, 0.0f));
+					return (ingredient.smallIcon, new(5f, 0.0f));
 				case Salt salt:
-					return (salt.smallIcon, new Vector2(5f, 0.0f));
+					return (salt.smallIcon, new(5f, 0.0f));
 				case AlchemyMachineProduct crystal:
 					return (crystal.GetActiveMarkerIcon(), Vector2.zero);
 				case Seed semen:
-					return (semen.smallIcon, new Vector2(5f, 0.0f));
+					return (semen.smallIcon, new(5f, 0.0f));
 				case Furniture furniture:
 					SpriteRenderer[] renderers = furniture.prefab.visualObjectController.renderersToOutline;
 					return (renderers[renderers.Length - 1].sprite, Vector2.zero);

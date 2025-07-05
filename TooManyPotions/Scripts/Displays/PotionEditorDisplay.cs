@@ -85,9 +85,9 @@ namespace TooManyPotions.Displays
 				newButton.Image.color = new Color(1f, 1f, 1f, 0.3f);
 				ImageContrainer icon = CreateIconOnLayout(newButton.GameObject.transform, effect.name + " Icon", effect.icon.GetSprite());
 				RectTransform transform = icon.GameObject.GetComponent<RectTransform>();
-				transform.anchoredPosition = new Vector2(0f, 0f);
-				transform.anchorMax = new Vector2(0.9f, 0.9f);
-				transform.anchorMin = new Vector2(0.1f, 0.1f);
+				transform.anchoredPosition = new(0f, 0f);
+				transform.anchorMax = new(0.9f, 0.9f);
+				transform.anchorMin = new(0.1f, 0.1f);
 				transform.sizeDelta = Vector2.zero;
 			}
 		}
@@ -127,9 +127,9 @@ namespace TooManyPotions.Displays
 				newButton.Image.color = new Color(1f, 1f, 1f, 0.3f);
 				ImageContrainer icon = CreateIconOnLayout(newButton.GameObject.transform, map.potionBase.name + " Icon", map.potionBase.markerIconSelectedSprite);
 				RectTransform transform = icon.GameObject.GetComponent<RectTransform>();
-				transform.anchoredPosition = new Vector2(0f, 0f);
-				transform.anchorMax = new Vector2(0.9f, 0.9f);
-				transform.anchorMin = new Vector2(0.1f, 0.1f);
+				transform.anchoredPosition = new(0f, 0f);
+				transform.anchorMax = new(0.9f, 0.9f);
+				transform.anchorMin = new(0.1f, 0.1f);
 				transform.sizeDelta = Vector2.zero;
 			}
 		}
@@ -151,7 +151,7 @@ namespace TooManyPotions.Displays
 				_warningWindow.captionText.gameObject.AddComponent<LocalizedText>();
 				_warningWindow.bodyText.gameObject.AddComponent<LocalizedText>();
 				_warningWindow.resizeAfter = 0;
-				_warningWindow.gameObject.transform.localPosition = new Vector3(-4.5f, 1f, 0f);
+				_warningWindow.gameObject.transform.localPosition = new(-4.5f, 1f, 0f);
 			}
 			_warningWindow.Visible = true;
 		}
