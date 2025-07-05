@@ -1,95 +1,50 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8E8BE687-07F6-46C9-9298-1611415E4ADC}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TooManyPotions</RootNamespace>
-    <AssemblyName>TooManyPotions</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-    <DebugSymbols>false</DebugSymbols>
-    <DebugType>None</DebugType>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>latestmajor</LangVersion>
+    <Nullable>enable</Nullable>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo> <!-- fix wrong assembly info caused by using msbuild & dotnet build at the same time -->
+    <SteamDir>C:\Steam\</SteamDir>
+    <RefsDir>$(SteamDir)steamapps\common\Potion Craft\Potion Craft_Data\Managed\</RefsDir>
+    <ModDir>$(SteamDir)steamapps\common\Potion Craft\BepInEx\plugins\</ModDir>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(BuildPath)' != '' ">
-    <Optimize>false</Optimize>
-    <OutputPath>$(BuildPath)</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+  <Target Name="CopyOutput" AfterTargets="Build">
+    <ItemGroup>
+      <ModFiles Include="$(TargetDir)**\*.*" Exclude="$(TargetDir)UniverseLib.Mono.dll;$(TargetDir)0Harmony.dll;$(TargetDir)Mono*.dll;$(TargetDir)BepInEx.AssemblyPublicizer*.dll;$(TargetDir)AsmResolver*.dll;$(TargetDir)*.pdb" />
+    </ItemGroup>
+    <Copy SourceFiles="@(ModFiles)" DestinationFolder="$(ModDir)%(RecursiveDir)" SkipUnchangedFiles="false" />
+  </Target>
   <ItemGroup>
-    <Reference Include="0Harmony" HintPath="..\References\0Harmony.dll" Private="false" />
-    <Reference Include="BepInEx" HintPath="..\References\BepInEx.dll" Private="false" />
-    <Reference Include="PotionCraft.Core" HintPath="..\References\PotionCraft.Core.dll" Private="false" />
-    <Reference Include="PotionCraft.SceneLoader" HintPath="..\References\PotionCraft.SceneLoader.dll" Private="false" />
-    <Reference Include="PotionCraft.InputSystem" HintPath="..\References\PotionCraft.InputSystem.dll" Private="false" />
-    <Reference Include="PotionCraft.Scripts" HintPath="..\References\PotionCraft.Scripts.dll" Private="false" />
-    <Reference Include="PotionCraft.Settings" HintPath="..\References\PotionCraft.Settings.dll" Private="false" />
-    <Reference Include="Unity.InputSystem" HintPath="..\References\Unity.InputSystem.dll" Private="false" />
-    <Reference Include="Unity.TextMeshPro" HintPath="..\References\Unity.TextMeshPro.dll" Private="false" />
-    <Reference Include="UnityEngine" HintPath="..\References\UnityEngine.dll" Private="false" />
-    <Reference Include="UnityEngine.CoreModule" HintPath="..\References\UnityEngine.CoreModule.dll" Private="false" />
-    <Reference Include="UnityEngine.TextRenderingModule" HintPath="..\References\UnityEngine.TextRenderingModule.dll" Private="false" />
-    <Reference Include="UnityEngine.Physics2DModule" HintPath="..\References\UnityEngine.Physics2DModule.dll" Private="false" />
-    <Reference Include="UnityEngine.UI" HintPath="..\References\UnityEngine.UI.dll" Private="false" />
-    <Reference Include="UnityEngine.UIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL" SpecificVersion="false" HintPath="..\References\UnityEngine.UIModule.dll" Private="false" />
+    <Content Include="Resources\**" Link="%(RecursiveDir)\%(FileName)%(Extension)" CopyToOutputDirectory="Always" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="UniverseLib.Mono" Version="1.5.1" />
+    <PackageReference Include="HarmonyX" Version="2.9.0" /> <!-- BepInEx uses HarmonyX 2.9.0. -->
+    <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.3" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" PrivateAssets="all" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="UnityExplorer.BIE5.Mono" HintPath="..\References\UnityExplorer.BIE5.Mono.dll" Private="false" />
-    <Reference Include="UniverseLib.Mono" HintPath="..\References\UniverseLib.Mono.dll" Private="false" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="ModInfo.cs" />
-    <Compile Include="GlobalConfigs.cs" />
-    <Compile Include="Scripts\Displays\AbstractDisplay.cs" />
-    <Compile Include="Scripts\Displays\CheatMenuDisplay.cs" />
-    <Compile Include="Scripts\Displays\PotionEditorDisplay.cs" />
-    <Compile Include="Scripts\Displays\DisplayToggler.cs" />
-    <Compile Include="Scripts\CheatModules\PotionPositionModifier.cs" />
-    <Compile Include="Scripts\CheatModules\ItemDuplicator.cs" />
-    <Compile Include="Scripts\CheatModules\HaggleAutoplayer.cs" />
-    <Compile Include="Scripts\Controls\ScrollRectCellResize.cs" />
-    <Compile Include="Controls\Factories\ControlsFactory.cs" />
-    <Compile Include="Controls\Factories\PotionCraftControlsFactory.cs" />
-    <Compile Include="Patches\GameManagerPatcher.cs" />
-    <Compile Include="Patches\InputSystemPatch.cs" />
-    <Compile Include="Patches\ResourcesPatcher.cs" />
-    <Compile Include="Patches\DangerZonePatch.cs" />
-    <Compile Include="Patches\StartupPatch.cs" />
-    <Compile Include="Patches\ScrollRectPatch.cs" />
-    <Compile Include="Patches\GamepadCursorPatch.cs" />
-    <Compile Include="Patches\GamepadDisablePatch.cs" />
-    <Compile Include="Patches\UnityInputSystemPatch.cs" />
-    <Compile Include="Helpers\PlayerStatsHelper.cs" />
-    <Compile Include="Helpers\UnityExplorerHelper.cs" />
-    <Compile Include="Helpers\SpritesHelper.cs" />
-    <Compile Include="Helpers\FontsHelper.cs" />
-    <Compile Include="Extensions\InventoryItemExtension.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="..\Resources\**" Link="%(RecursiveDir)\%(FileName)%(Extension)" CopyToOutputDirectory="Always" />
+    
+    <Reference Include="BepInEx" HintPath="$(ModDir)\..\core\BepInEx.dll" Private="false" />
+
+    <Reference Include="PotionCraft.Core" HintPath="$(RefsDir)PotionCraft.Core.dll" Private="false" />
+    <Reference Include="PotionCraft.SceneLoader" HintPath="$(RefsDir)PotionCraft.SceneLoader.dll" Private="false" />
+    <Reference Include="PotionCraft.InputSystem" HintPath="$(RefsDir)PotionCraft.InputSystem.dll" Private="false" />
+    <Reference Include="PotionCraft.Scripts" HintPath="$(RefsDir)PotionCraft.Scripts.dll" Private="false" Publicize="true" />
+    <Reference Include="PotionCraft.Settings" HintPath="$(RefsDir)PotionCraft.Settings.dll" Private="false" />
+
+    <Reference Include="Unity.InputSystem" HintPath="$(RefsDir)Unity.InputSystem.dll" Private="false" />
+    <Reference Include="Unity.TextMeshPro" HintPath="$(RefsDir)Unity.TextMeshPro.dll" Private="false" />
+
+    <Reference Include="UnityEngine" HintPath="$(RefsDir)UnityEngine.dll" Private="false" />
+    <Reference Include="UnityEngine.CoreModule" HintPath="$(RefsDir)UnityEngine.CoreModule.dll" Private="false" />
+    <Reference Include="UnityEngine.TextRenderingModule" HintPath="$(RefsDir)UnityEngine.TextRenderingModule.dll" Private="false" />
+    <Reference Include="UnityEngine.Physics2DModule" HintPath="$(RefsDir)UnityEngine.Physics2DModule.dll" Private="false" />
+    <Reference Include="UnityEngine.UI" HintPath="$(RefsDir)UnityEngine.UI.dll" Private="false" />
+    <Reference Include="UnityEngine.UIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL" SpecificVersion="false" HintPath="$(RefsDir)UnityEngine.UIModule.dll" Private="false" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EasierUI\EasierUI\EasierUI.csproj" />
     <ProjectReference Include="..\ReLocalization\ReLocalization\ReLocalization.csproj" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
