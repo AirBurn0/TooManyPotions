@@ -9,7 +9,7 @@ namespace TooManyPotions.Patches
 	{
 		public static void Postfix(ref bool __result)
 		{
-			__result = __result || GlobalConfigs.IsUnfocused;
+			__result = __result || !GlobalConfigs.IsUEUnfocused;
 		}
 	}
 

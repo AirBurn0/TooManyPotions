@@ -7,7 +7,7 @@ namespace TooManyPotions.Helpers
 {
 	public static class FontsHelper
 	{
-		private readonly static Dictionary<string, TMP_FontAsset> fontsDictionary = new Dictionary<string, TMP_FontAsset>();
+		private readonly static Dictionary<string, TMP_FontAsset> fontsDictionary = new();
 
 		static FontsHelper()
 		{

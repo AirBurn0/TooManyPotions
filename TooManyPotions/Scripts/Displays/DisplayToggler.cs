@@ -7,10 +7,10 @@ namespace TooManyPotions.Displays
 	{
 		public static bool IsActive => _cheatMenuObject.activeSelf;
 		private static CheatMenuDisplay _cheatMenu;
-		private static PotionEditorDisplay _effectsMenu;
+		private static PotionEditorDisplay? _effectsMenu;
 		private static MaximizeButton _maximize;
 		private static GameObject _cheatMenuObject;
-		private static GameObject _effectsMenuObject;
+		private static GameObject? _effectsMenuObject;
 
 		static DisplayToggler()
 		{
@@ -21,8 +21,8 @@ namespace TooManyPotions.Displays
 			_maximize = _cheatMenuObject.transform.Find("Minimized/Head/Maximize").GetComponent<MaximizeButton>();
 
 			_effectsMenuObject = _effectsMenu?.Window.gameObject;
-			_effectsMenuObject.SetActive(false);
-			_cheatMenu.potionEffectMenuOpenHandler = () => _effectsMenuObject.SetActive(true);
+			_effectsMenuObject?.SetActive(false);
+			_cheatMenu.potionEffectMenuOpenHandler = () => _effectsMenuObject?.SetActive(true);
 
 			GlobalConfigs.toggleMenu.onJustUppedEvent.AddListener(ToggleMenu);
 		}
@@ -36,7 +36,7 @@ namespace TooManyPotions.Displays
 		{
 			if (_maximize?.isActiveAndEnabled ?? false)
 			{
-				_effectsMenuObject.SetActive(false);
+				_effectsMenuObject?.SetActive(false);
 				_maximize.OnButtonReleasedPointerInside();
 				return;
 			}

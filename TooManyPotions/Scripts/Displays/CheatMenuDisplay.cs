@@ -17,15 +17,14 @@ namespace TooManyPotions.Displays
 	internal class CheatMenuDisplay : AbstractDisplay
 	{
 		const int preferedWidth = 200;
-		public Action potionEffectMenuOpenHandler;
+		public Action? potionEffectMenuOpenHandler;
 
 		#region Controls
-		private InputFieldContrainer _goldInput;
-		private InputFieldContrainer _popularityInput;
-		private SliderContrainer _karmaSlider;
-		private ScrollContainer _itemsScroll;
-		private ToggleContrainer _devmodeToggle, _teleportToggle, _nodamageToggle, _dupingToggle, _autohaggleToggle;
-		private ButtonContrainer _button;
+		private InputFieldContrainer? _goldInput, _popularityInput, _experienceInput;
+		private SliderContrainer? _karmaSlider;
+		private ScrollContainer? _itemsScroll;
+		private ToggleContrainer? _devmodeToggle, _teleportToggle, _nodamageToggle, _dupingToggle, _autohaggleToggle;
+		private ButtonContrainer? _button;
 		#endregion
 
 		public static CheatMenuDisplay Init()
@@ -37,6 +36,7 @@ namespace TooManyPotions.Displays
 		{
 			SetupGoldInput();
 			SetupPopularityInput();
+			SetupExperienceInput();
 			SetupKarmaSlider();
 			SetupItemsScroll();
 			
@@ -53,7 +53,7 @@ namespace TooManyPotions.Displays
 
 		private GameObject CreateLayout(string name)
 		{
-			GameObject layout = new GameObject(name);
+			GameObject layout = new(name);
 			layout.transform.SetParent(_panel.RectTransform);
 
 			LayoutElement layoutElementHolder = layout.AddComponent<LayoutElement>();
@@ -101,7 +101,7 @@ namespace TooManyPotions.Displays
 
 		private static void CreateCorner(Transform parent, string name, Sprite sprite, Vector2 max, Vector2 min)
 		{
-			GameObject corner = new GameObject(name, typeof(Image));
+			GameObject corner = new(name, typeof(Image));
 			corner.transform.SetParent(parent);
 			corner.GetComponent<Image>().sprite = sprite;
 			RectTransform transform = (RectTransform)corner.transform;
@@ -120,8 +120,7 @@ namespace TooManyPotions.Displays
 				if (int.TryParse(value, out int result))
 					PlayerStatsHelper.Gold = result;
 			}
-			_goldInput = CreateInputField(goldHolder.transform,
-				SpritesHelper.RequestSpriteByName("Gold Plate Idle"), handler, "Gold Input", "0");
+			_goldInput = CreateInputField(goldHolder.transform, SpritesHelper.RequestSpriteByName("Gold Plate Idle"), handler, "Gold Input", "0");
 			Managers.Player.onGoldChanged.AddListener(() => _goldInput.InputField.text = PlayerStatsHelper.Gold.ToString());
 		}
 
@@ -130,18 +129,24 @@ namespace TooManyPotions.Displays
 			GameObject popularityHolder = CreateLayout("Popularity Holder");
 			CreateIconOnLayout(popularityHolder.transform, "PopularityIcon Tier 5");
 
-			_popularityInput = CreateInputField(popularityHolder.transform, SpritesHelper.RequestSpriteByName("Popularity Plate Idle"),
-				(string value) => { if (int.TryParse(value, out int result)) PlayerStatsHelper.Popularity = result; }, "Popularity Input", "0");
-			Managers.Player.popularity.onPopularityChanged
-				.AddListener(() => _popularityInput.InputField.text = PlayerStatsHelper.Popularity.ToString());
+			_popularityInput = CreateInputField(popularityHolder.transform, SpritesHelper.RequestSpriteByName("Popularity Plate Idle"),value => { if (int.TryParse(value, out int result)) PlayerStatsHelper.Popularity = result; }, "Popularity Input", "0");
+			Managers.Player.popularity.onPopularityChanged.AddListener(() => _popularityInput.InputField.text = PlayerStatsHelper.Popularity.ToString());
+		}
+
+		private void SetupExperienceInput()
+		{
+			GameObject experienceHolder = CreateLayout("Experience Holder");
+			CreateIconOnLayout(experienceHolder.transform, "XP Icon");
+
+			_experienceInput = CreateInputField(experienceHolder.transform, SpritesHelper.RequestSpriteByName("Karma Plate Idle"), value => { if (float.TryParse(value, out float result)) PlayerStatsHelper.Experience = result; }, "Experience Input", "0");
+			Managers.Player.experience.OnCurrentExpChanged.AddListener(() => _experienceInput.InputField.text = PlayerStatsHelper.Experience.ToString());
 		}
 
 		private void SetupKarmaSlider()
 		{
 			GameObject karmaHolder = CreateLayout("Karma Holder");
 			CreateIconOnLayout(karmaHolder.transform, "KarmaIcon Good 3");
-			_karmaSlider = ControlsFactory.Instance.CreateSlider(karmaHolder.transform, "Karma Slider",
-				(float value) => PlayerStatsHelper.Karma = (int)value, true, -100, 100);
+			_karmaSlider = ControlsFactory.Instance.CreateSlider(karmaHolder.transform, "Karma Slider", value => PlayerStatsHelper.Karma = (int)value, true, -100, 100);
 			LayoutElement layoutElement = _karmaSlider.GameObject.AddComponent<LayoutElement>();
 			layoutElement.flexibleWidth = 1;
 			Managers.Player.karma.onKarmaChanged.AddListener(() => _karmaSlider.Slider.value = PlayerStatsHelper.Karma);
@@ -185,34 +190,29 @@ namespace TooManyPotions.Displays
 		private void SetupDevmodeToggle()
 		{
 			// can be force-set-always true;
-			_devmodeToggle = CreateToggle(_panel.RectTransform, "DevMode Toggle",
-				(bool value) => DebugManager.IsDeveloperMode = value || GlobalConfigs.IsForceDevMode, "#devmode_toggle_text");
+			_devmodeToggle = CreateToggle(_panel.RectTransform, "DevMode Toggle", value => DebugManager.IsDeveloperMode = value || GlobalConfigs.IsForceDevMode, "#devmode_toggle_text");
 			_devmodeToggle.Toggle.isOn = GlobalConfigs.IsForceDevMode;
 		}
 
 		private void SetupTeleportationToggle()
 		{
-			_teleportToggle = CreateToggle(_panel.RectTransform, "Teleport Toggle",
-				(bool value) => GlobalConfigs.IsPositionModifyingAllowed = value, "#position_modifying_toggle_text");
+			_teleportToggle = CreateToggle(_panel.RectTransform, "Teleport Toggle", value => GlobalConfigs.IsPositionModifyingAllowed = value, "#position_modifying_toggle_text");
 		}
 
 		private void SetupNodamageToggle()
 		{
-			_nodamageToggle = CreateToggle(_panel.RectTransform, "Godmode Toggle",
-				(bool value) => GlobalConfigs.IsDangerZonesDisabled = value, "#disable_damage_toggle_text");
+			_nodamageToggle = CreateToggle(_panel.RectTransform, "Godmode Toggle", value => GlobalConfigs.IsDangerZonesDisabled = value, "#disable_damage_toggle_text");
 		}
 
 		private void SetupDupingToggle()
 		{
-			_dupingToggle = CreateToggle(_panel.RectTransform, "Duping Toggle",
-				(bool value) => GlobalConfigs.IsDuplicateOnClickAllowed = value, "#inventory_items_dupe_toggle_text");
+			_dupingToggle = CreateToggle(_panel.RectTransform, "Duping Toggle", value => GlobalConfigs.IsDuplicateOnClickAllowed = value, "#inventory_items_dupe_toggle_text");
 		}
 
 		private void SetupAutoHaggleToggle()
 		{
 			// that's just funny
-			_autohaggleToggle = CreateToggle(_panel.RectTransform, "Autohaggle Toggle",
-				(bool value) => GlobalConfigs.IsHaggleAutoplayAllowed = value, "#haggle_autoplay_toggle_text");
+			_autohaggleToggle = CreateToggle(_panel.RectTransform, "Autohaggle Toggle", value => GlobalConfigs.IsHaggleAutoplayAllowed = value, "#haggle_autoplay_toggle_text");
 		}
 
 		private void SetupPotionEditWindowButton()
@@ -231,7 +231,7 @@ namespace TooManyPotions.Displays
 
 		private void PotionEditWindowAction()
 		{
-			potionEffectMenuOpenHandler.Invoke();
+			potionEffectMenuOpenHandler?.Invoke();
 		}
 
 	}

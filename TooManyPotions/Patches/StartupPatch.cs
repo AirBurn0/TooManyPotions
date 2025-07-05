@@ -10,7 +10,7 @@ namespace TooManyPotions.Patches
 	[HarmonyPatch(typeof(LoadingQueue), "Add")]
 	internal class StartupPatch
 	{
-		[HarmonyPatch("Add", new Type[] { typeof(string), typeof(Action) })]
+		[HarmonyPatch("Add", [typeof(string), typeof(Action)])]
 		[HarmonyPrefix]
 		public static bool Add(string name, Action action)
 		{

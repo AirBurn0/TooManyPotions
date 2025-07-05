@@ -5,11 +5,14 @@ using PotionCraft.ManagersSystem;
 using PotionCraft.ManagersSystem.Debug;
 using PotionCraft.Markers;
 using PotionCraft.Settings;
-using System.Collections.Generic;
-using TMPro;
 using TooManyPotions.Controls.Factories;
 using UnityEngine;
 using UnityEngine.UI;
+
+// crash out with NPE would be OK
+#pragma warning disable CS8600
+#pragma warning disable CS8602
+#pragma warning disable CS8618
 
 namespace TooManyPotions.Displays
 {
@@ -34,7 +37,7 @@ namespace TooManyPotions.Displays
 			TryReorder();
 			// on window resize		
 			Vector2 arenaVector = scaleFactor * (_panel.GameObject.GetComponent<RectTransform>().sizeDelta + new Vector2(2 * defaultPadding + 1, headPadding + 2 * defaultPadding));
-			Vector2 boxVector = new Vector2(arenaVector.x, 0.5f);
+			Vector2 boxVector = new(arenaVector.x, 0.5f);
 			Window.colliderBackground.size = boxVector;
 			Window.colliderBackground.offset = boxVector / 2f * (Vector2.right + Vector2.down);
 			Window.spriteBackground.size = arenaVector;
@@ -101,7 +104,7 @@ namespace TooManyPotions.Displays
 
 		protected static GameObject CreateLayout(Transform parent, string name, float width, float height)
 		{
-			GameObject layout = new GameObject(name);
+			GameObject layout = new(name);
 			layout.transform.SetParent(parent);
 
 			LayoutElement layoutElementHolder = layout.AddComponent<LayoutElement>();
@@ -118,7 +121,7 @@ namespace TooManyPotions.Displays
 			return layout;
 		}
 
-		protected static ImageContrainer CreateIconOnLayout(Transform parent, string objectName, Sprite sprite, int width = 32, int height = 32)
+		protected static ImageContrainer CreateIconOnLayout(Transform parent, string objectName, Sprite? sprite, int width = 32, int height = 32)
 		{
 			ImageContrainer icon = ControlsFactory.Instance.CreateImage(parent, objectName, sprite);
 
@@ -147,13 +150,13 @@ namespace TooManyPotions.Displays
 			windowObject.transform.SetParent(Managers.Game.Cam.transform);
 			windowObject.transform.localPosition = new Vector3(-10f, 6f, 0f);
 
-			GameObject menuObject = new GameObject(objectName + " Menu Display");
+			GameObject menuObject = new(objectName + " Menu Display");
 			Transform Root = windowObject?.transform.Find("Maximized/Background");
 			menuObject.transform.SetParent(Root);
 			T menu = menuObject.AddComponent<T>();
 			menu.Window = window;
 
-			GameObject background = new GameObject("BackgroundRaycastCollider");
+			GameObject background = new("BackgroundRaycastCollider");
 			menu._backgroundCollider = background.AddComponent<BoxCollider2D>();
 			background.AddComponent<RightPanelColliderForItemsRaycasting>();
 			background.transform.SetParent(Root);

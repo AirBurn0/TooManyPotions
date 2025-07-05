@@ -12,34 +12,32 @@ namespace TooManyPotions.Controls.Factories
 {
 	public class PotionCraftControlsFactory : EasierUI.Controls.Factories.DefaultControlsFactory
 	{
-		private ControlsResources.Resources _resourcesDefault = new ControlsResources.Resources()
+		private ControlsResources.Resources _resourcesDefault = new()
 		{
 			font = Helpers.FontsHelper.RequestFont("Vollkorn-PC SemiBold SDF")
 		};
-		private ControlsResources.Resources _resourcesInputField = new ControlsResources.Resources()
+		private ControlsResources.Resources _resourcesInputField = new()
 		{
 			font = Helpers.FontsHelper.RequestFont("Vollkorn-PC-Numbers Bold SDF")
 		};
-		private ControlsResources.Resources _resourcesToggle = new ControlsResources.Resources()
+		private ControlsResources.Resources _resourcesToggle = new()
 		{
 			standard = Helpers.SpritesHelper.GetByName("Alchemist'sPathBook FollowIcon Default"),
 			checkmark = Helpers.SpritesHelper.GetByName("Alchemist'sPathBook FollowIcon AlwaysFollow")
 		};
-		private ControlsResources.Resources _resourcesScroll = new ControlsResources.Resources()
+		private ControlsResources.Resources _resourcesScroll = new()
 		{
 			// no standard cuz looks cringy
 			knob = Helpers.SpritesHelper.RequestSpriteByName("InventoryScroller Pointer"),
 			background = Helpers.SpritesHelper.RequestSpriteByName("InventoryScroller Axis Var1 Active")
 		};
-		private ControlsResources.Resources _resourcesScrollView = new ControlsResources.Resources()
+		private ControlsResources.Resources _resourcesScrollView = new()
 		{
 			standard = Helpers.SpritesHelper.RequestSpriteByName("InventoryScroller Pointer"),
 			knob = Helpers.SpritesHelper.RequestSpriteByName("InventoryScroller Pointer"),
 			background = Helpers.SpritesHelper.RequestSpriteByName("InventoryWindow Background Var2"),
 			childBackground = Helpers.SpritesHelper.RequestSpriteByName("InventoryScroller Axis Var1 Active")
 		};
-
-		private const float DefaultSensivity = 10;
 
 		public static new PotionCraftControlsFactory Instance
 		{
@@ -75,7 +73,7 @@ namespace TooManyPotions.Controls.Factories
 
 			RectTransform sliderArea = (RectTransform)GO.transform.Find("Handle Slide Area");
 			sliderArea.sizeDelta = new Vector2(sliderArea.sizeDelta.x, -10);
-			PointerEventData data = new PointerEventData(EventSystem.current);
+			PointerEventData data = new(EventSystem.current);
 			data.position = Managers.Cursor.cursor.transform.position;
 
 			return slider;
@@ -124,7 +122,7 @@ namespace TooManyPotions.Controls.Factories
 			ContentSizeFitter fitter = scroll.ContentHolder.AddComponent<ContentSizeFitter>();
 			fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
 
-			PointerEventData data = new PointerEventData(EventSystem.current);
+			PointerEventData data = new(EventSystem.current);
 			data.position = Managers.Cursor.cursor.transform.position;
 			data.button = 0;
 

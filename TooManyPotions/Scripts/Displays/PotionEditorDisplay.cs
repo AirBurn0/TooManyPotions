@@ -18,9 +18,9 @@ namespace TooManyPotions.Displays
 		private const int effectScrollWidth = 720 + 16;
 		private const int width = effectScrollWidth + baseScrollWidth;
 		private const int height = 120;
-		private DebugWindow _warningWindow = null;
-		private Button currentState = null;
-		private ScrollContainer _effectsScroll;
+		private DebugWindow? _warningWindow = null;
+		private Button? currentState = null;
+		private ScrollContainer? _effectsScroll;
 
 		public static PotionEditorDisplay Init()
 		{

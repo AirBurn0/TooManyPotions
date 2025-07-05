@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using PotionCraft.ScriptableObjects.BuildableInventoryItem;
 using UnityEngine;
 
 namespace TooManyPotions.Helpers
@@ -9,7 +8,7 @@ namespace TooManyPotions.Helpers
 	{
 		private readonly static Dictionary<string, List<Sprite>> SpritesDictionary;
 
-		private readonly static Dictionary<string, Sprite> RequestedSpritesDictionary = new Dictionary<string, Sprite>();
+		private readonly static Dictionary<string, Sprite> RequestedSpritesDictionary = [];
 
 		static SpritesHelper()
 		{
@@ -24,12 +23,13 @@ namespace TooManyPotions.Helpers
 				.Append("InventoryWindow Background Var2")
 				.Append("Gold Plate Idle")
 				.Append("Popularity Plate Idle")
+				.Append("Karma Plate Idle")
 				.Append("SaveRecipe Active Slot")
 			);
 			ModInfo.Log($"Loaded {SpritesDictionary.Count + RequestedSpritesDictionary.Count} Sprites");
 		}
 
-		public static List<Sprite> GetByListName(string name)
+		public static List<Sprite>? GetByListName(string name)
 		{
 			if (SpritesDictionary.ContainsKey(name))
 				return SpritesDictionary[name];
@@ -37,9 +37,9 @@ namespace TooManyPotions.Helpers
 			return null;
 		}
 
-		public static Sprite GetByName(string name)
+		public static Sprite? GetByName(string name)
 		{
-			return GetByListName(name).FirstOrDefault();
+			return GetByListName(name)?.FirstOrDefault();
 		}
 
 		public static Sprite RequestSpriteByName(string name)

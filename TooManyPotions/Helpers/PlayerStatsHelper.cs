@@ -1,8 +1,6 @@
-﻿using HarmonyLib;
-using PotionCraft;
+﻿using PotionCraft;
 using PotionCraft.ManagersSystem;
-using PotionCraft.ManagersSystem.Game.Providers;
-using PotionCraft.ObjectBased;
+using PotionCraft.ManagersSystem.Player;
 using PotionCraft.ObjectBased.RecipeMap;
 using PotionCraft.SceneLoader;
 using PotionCraft.ScriptableObjects;
@@ -12,12 +10,11 @@ using PotionCraft.ScriptableObjects.Ingredient;
 using PotionCraft.ScriptableObjects.Salts;
 using PotionCraft.ScriptableObjects.TradableUpgrades;
 using PotionCraft.ScriptableObjects.WateringPot;
+using PotionCraft.Settings;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace TooManyPotions.Helpers
 {
@@ -38,48 +35,66 @@ namespace TooManyPotions.Helpers
 			get => Managers.Player.popularity.Popularity;
 			set => Managers.Player.popularity.Popularity = value;
 		}
+		public static float Experience
+		{
+			get => Managers.Player.experience.CurrentExp;
+			set
+			{
+				if (value < 0)
+					return;
+				var xp = Managers.Player.experience;
+				if (value < xp.CurrentExp)
+				{
+					int step = Settings<PlayerManagerSettings>.Asset.levelStep;
+					xp.currentExp = value;
+					if (xp.currentLvlAt > value)
+					{
+						// inverse Arithmetic progression Sum goes brrrr
+						xp.currentLvl = Mathf.FloorToInt(0.5f * (Mathf.Sqrt(8f * value / step + 1f) + 1f));
+						xp.currentLvlAt = (xp.currentLvl - 1) * step;
+						xp.nextLvlAt = xp.currentLvlAt + step;
+					}
+					xp.OnCurrentExpChanged?.Invoke();
+					return;
+				}
+				xp.AddExperience(value - Experience, ExperienceCategory.Debug);
+			}
+		}
 		public static int Karma
 		{
 			get => Managers.Player.karma.Karma;
 			set => Managers.Player.karma.Karma = value;
 		}
-
 		public readonly static ReadOnlyCollection<InventoryItem> Items;
-
 		public readonly static ReadOnlyCollection<PotionEffect> Effects;
-
 		public readonly static ReadOnlyCollection<MapState> MapBases;
-
+		
 		static PlayerStatsHelper()
 		{
 			// items
-			List<InventoryItem> items = new List<InventoryItem>();
-			items.AddRange(Ingredient.allIngredients.OrderBy(x => x.GetItemType()));
-			items.AddRange(AlchemyMachineProduct.allProducts.Where(x => !x.name.Contains("Useless") && !x.name.Contains("Salt Pile"))); // exclude useless poop and salts
-			items.AddRange(Salt.allSalts);
+			List<InventoryItem> items =
+			[
+				.. Ingredient.allIngredients.OrderBy(x => x.GetItemType()),
+				.. AlchemyMachineProduct.allProducts.Where(x => !x.name.Contains("Useless") && !x.name.Contains("Salt Pile")), // exclude useless poop and salts
+                .. Salt.allSalts,
+			];
 
-			var buildable = Traverse.Create(typeof(BuildableInventoryItem)).Field("allBuildableItems").GetValue() as Dictionary<BuildableInventoryItemType, List<BuildableInventoryItem>>;
+			var buildable = BuildableInventoryItem.allBuildableItems;
 			// ensures order - seeds first, pots and decor in middle, furniture last
 			// can be also achieved via BuildableInventoryItem.ForEach call but it's gross
 			items.AddRange(buildable[BuildableInventoryItemType.Seed]);
-
-			items.AddRange(Traverse.Create(typeof(WateringPot)).Property("AllPots").GetValue() as List<WateringPot>);
+			items.AddRange(WateringPot.AllPots);
 			items.AddRange(DecorDynamic.allDecorItems);
-
 			items.AddRange(buildable[BuildableInventoryItemType.Furniture]);
 			items.AddRange(TradableUpgrade.allTradableUpgrades);
 			// last ones?
 			Items = items.AsReadOnly();
 
 			// potion effects
-			List<PotionEffect> effects = new List<PotionEffect>();
-			effects.AddRange(PotionEffect.allPotionEffects);
-			Effects = effects.AsReadOnly();
+			Effects = PotionEffect.allPotionEffects.AsReadOnly();
 
 			// potion bases
-			List<MapState> bases = new List<MapState>();
-			bases.AddRange(MapStatesManager.MapStates);
-			MapBases = bases.AsReadOnly();
+			MapBases = new(MapStatesManager.MapStates);
 		}
 
 		public static void AddItem(InventoryItem item, int amount)
@@ -93,7 +108,6 @@ namespace TooManyPotions.Helpers
 				ModInfo.Log(e.Message, BepInEx.Logging.LogLevel.Warning);
 			}
 		}
-
 
 		public static bool CanAddEffect(PotionEffect effect)
 		{

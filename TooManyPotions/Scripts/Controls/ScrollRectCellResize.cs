@@ -5,9 +5,9 @@ namespace TooManyPotions.Scripts.Controls
 {
 	public class ScrollRectCellResize : MonoBehaviour
 	{
-		public RectTransform scrollRectTransform;
-		public RectTransform scrollbarVTransform;
-		public GridLayoutGroup group;
+		public RectTransform? scrollRectTransform;
+		public RectTransform? scrollbarVTransform;
+		public GridLayoutGroup? group;
 		public int iconsInRow = 4;
 		private float _gridCellSize;
 
@@ -15,11 +15,6 @@ namespace TooManyPotions.Scripts.Controls
 		{
 			if (group == null || scrollRectTransform == null || scrollbarVTransform == null)
 				return;
-			TryResizeCell();
-		}
-
-		private void TryResizeCell()
-		{
 			float panelWidth = scrollRectTransform.rect.width;
 			float barWidth = scrollbarVTransform.rect.width;
 			float cellSize = (panelWidth - barWidth) / iconsInRow;
