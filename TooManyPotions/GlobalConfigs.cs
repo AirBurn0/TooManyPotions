@@ -83,10 +83,10 @@ namespace TooManyPotions
 		public static Command duplicateInInventory = new("Duplicate item in inventory when clicked once, or multiple times if hold",
 		[
 			new([GamepadButton.Get(GamepadButton.ButtonCode.LeftStick)]),
-			new([MouseButton.Get(0), KeyboardKey.Get(KeyCode.LeftShift)]),
-			new([MouseButton.Get(0), KeyboardKey.Get(KeyCode.RightShift)]),
-			new([MouseButton.Get(1), KeyboardKey.Get(KeyCode.LeftShift)]),
-			new([MouseButton.Get(1), KeyboardKey.Get(KeyCode.RightShift)])
+			new([MouseButton.Get(0), KeyboardKey.Get(KeyCode.LeftControl)]),
+			new([MouseButton.Get(0), KeyboardKey.Get(KeyCode.RightControl)]),
+			new([MouseButton.Get(1), KeyboardKey.Get(KeyCode.LeftControl)]),
+			new([MouseButton.Get(1), KeyboardKey.Get(KeyCode.RightControl)])
 		], false);
         public static bool IsInState(Command command, State state) => command.State == state;
 		public static bool IsUEUnfocused => !UnityExplorerHelper.IsFocused;

@@ -1,4 +1,3 @@
-using System.Threading;
 using PotionCraft.ManagersSystem;
 using PotionCraft.ObjectBased.InteractiveItem.InventoryObject;
 using PotionCraft.ScriptableObjects;
@@ -34,7 +33,7 @@ namespace TooManyPotions.Scripts.CheatModules
 
 		public void FixedUpdate()
 		{
-			if (GlobalConfigs.IsDuplicatingMultiple && IsTimerTriggered())
+			if (GlobalConfigs.IsDuplicatingMultiple && timer > 0 && Time.time - timer > PRESS_TIME)
 			{
 				timer += DELAY_TIME;
 				DuplicateHoveredInventoryItem(1);
@@ -43,19 +42,14 @@ namespace TooManyPotions.Scripts.CheatModules
 
 		private void StartTimer()
 		{
-			if(GlobalConfigs.IsUEUnfocused)
+			if (GlobalConfigs.IsUEUnfocused)
 				timer = Time.time;
 		}
 
 		private void EndTimer()
 		{
-			if(GlobalConfigs.IsUEUnfocused)
+			if (GlobalConfigs.IsUEUnfocused)
 				timer = -1f;
-		}
-
-		private bool IsTimerTriggered()
-		{
-			return timer > 0 && Time.time - timer > PRESS_TIME;
 		}
 
 		private static void DuplicateHoveredInventoryItem(int count)
